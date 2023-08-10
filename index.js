@@ -1,7 +1,7 @@
 // index.js
 const inquirer = require('inquirer');
-// const db = require('./db/employee_db.js');
-const { viewDepartments, viewRoles } = require('./queries');
+const db = require('./db/employee_db.js');
+const { viewDepartments, viewRoles, viewEmployees, } = require('./queries');
 
 
 
@@ -37,42 +37,50 @@ function mainMenu() {
           viewEmployees();
           break;
         case 'Add department':
-          // addDepartment();
+          addDepartment();
           break;
         case 'Add role':
-          // addRole();
+          addRole();
           break;
         case 'Add employee':
           addEmployee();
           break;
         case 'Update employee role':
-          // updateEmployeeRole();
+          updateEmployeeRole();
           break;
         case 'Exit':
           db.end();
           break;
         default:
           console.log('Invalid option');
-          // mainMenu();
+          mainMenu();
           break;
       }
     });
 }
 
-// Implement the viewEmployees, addEmployee, and updateEmployeeRole functions here
-
 // Call the main menu to start the application
 mainMenu();
 
-// index.js (continued)
-// ...
 
-function viewEmployees() {
-  db.query('SELECT * FROM employees', (err, res) => {
-    if (err) throw err;
-    console.table(res);
-    mainMenu();
-  });
+function addDepartment() {
+  // Use Inquirer to prompt the user for department details
+  inquirer
+    .prompt([
+      {
+        name: 'name',
+        type: 'input',
+        message: 'Enter the department name:',
+      },
+    ])
+    .then((answer) => {
+      // Insert the new department into the database
+      db.query(`INSERT INTO department (deptname) VALUES (?)`, ['Submittals'], answer, (err, res) => {
+        if (err) throw err;
+        console.log('Department added successfully!');
+        mainMenu();
+      });
+    });
 }
 
 function addEmployee() {
