@@ -1,4 +1,4 @@
-// index.js
+
 const inquirer = require('inquirer');
 const db = require('./db/employee_db.js');
 const { viewDepartments, viewRoles, viewEmployees, } = require('./queries');
@@ -75,12 +75,43 @@ function addDepartment() {
     ])
     .then((answer) => {
       // Insert the new department into the database
-      db.query(`INSERT INTO department (deptname) VALUES (?)`, ['Submittals'], answer, (err, res) => {
+      db.query(`INSERT INTO department (deptname) VALUES(?)`, answer.name, (err, res) => {
         if (err) throw err;
         console.log('Department added successfully!');
         mainMenu();
       });
     });
+}
+
+function addRole() {
+  inquirer
+  .prompt([
+    {
+      name: 'title',
+      type: 'input',
+      message: 'Enter the title:',
+    },
+    {
+      name: 'salary',
+      type: 'input',
+      message: 'Enter the salary:',
+    },
+    {
+      name: 'department_id',
+      type: 'input',
+      message: 'Enter the department ID:',
+    },
+  ])
+
+
+  .then((answer) => {
+    // Insert the new department into the database
+    db.query(`INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`, [answer.title, +answer.salary, +answer.department_id], (err, res) => {
+      if (err) throw err;
+      console.log('Role added successfully!');
+      mainMenu();
+    });
+  }); 
 }
 
 function addEmployee() {
@@ -110,7 +141,7 @@ function addEmployee() {
     ])
     .then((answer) => {
       // Insert the new employee into the database
-      db.query('INSERT INTO employees SET ?', answer, (err, res) => {
+      db.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?);', [answer.first_name, answer.last_name, answer.role_id, answer.manager_id], (err, res) => {
         if (err) throw err;
         console.log('Employee added successfully!');
         mainMenu();
@@ -137,8 +168,8 @@ function updateEmployeeRole() {
     .then((answer) => {
       // Update the employee's role in the database
       db.query(
-        'UPDATE employees SET role_id = ? WHERE id = ?',
-        [answer.role_id, answer.employee_id],
+        'UPDATE employee SET role_id = ? WHERE id = ?',
+        [answer.employee_id, answer.role_id],
         (err, res) => {
           if (err) throw err;
           console.log('Employee role updated successfully!');
