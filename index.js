@@ -1,7 +1,7 @@
 
 const inquirer = require('inquirer');
 const db = require('./db/employee_db.js');
-const { viewDepartments, viewRoles, viewEmployees, } = require('./queries');
+const { viewDepartments, viewRoles, viewEmployees, viewBudgets } = require('./queries')(goHome);
 
 
 
@@ -22,6 +22,7 @@ function mainMenu() {
         'Add role',
         'Add employee',
         'Update employee role',
+        'View department budgets',
         'Exit',
       ],
     })
@@ -48,6 +49,9 @@ function mainMenu() {
         case 'Update employee role':
           updateEmployeeRole();
           break;
+        case 'View department budgets':
+          viewBudgets();
+          break;
         case 'Exit':
           db.end();
           break;
@@ -58,6 +62,21 @@ function mainMenu() {
       }
     });
 }
+function goHome() {
+  inquirer.prompt({
+    name: 'goHome',
+    type: 'confirm',
+    message: 'Would you like to return to the main menu?'
+  })
+    .then((answer) => {
+      if (answer.goHome) {
+        mainMenu();
+      } else {
+        db.end();
+      }
+    })
+}
+
 
 // Call the main menu to start the application
 mainMenu();
@@ -78,40 +97,40 @@ function addDepartment() {
       db.query(`INSERT INTO department (deptname) VALUES(?)`, answer.name, (err, res) => {
         if (err) throw err;
         console.log('Department added successfully!');
-        mainMenu();
+        goHome();
       });
     });
 }
 
 function addRole() {
   inquirer
-  .prompt([
-    {
-      name: 'title',
-      type: 'input',
-      message: 'Enter the title:',
-    },
-    {
-      name: 'salary',
-      type: 'input',
-      message: 'Enter the salary:',
-    },
-    {
-      name: 'department_id',
-      type: 'input',
-      message: 'Enter the department ID:',
-    },
-  ])
+    .prompt([
+      {
+        name: 'title',
+        type: 'input',
+        message: 'Enter the title:',
+      },
+      {
+        name: 'salary',
+        type: 'input',
+        message: 'Enter the salary:',
+      },
+      {
+        name: 'department_id',
+        type: 'input',
+        message: 'Enter the department ID:',
+      },
+    ])
 
 
-  .then((answer) => {
-    // Insert the new department into the database
-    db.query(`INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`, [answer.title, +answer.salary, +answer.department_id], (err, res) => {
-      if (err) throw err;
-      console.log('Role added successfully!');
-      mainMenu();
+    .then((answer) => {
+      // Insert the new department into the database
+      db.query(`INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`, [answer.title, +answer.salary, +answer.department_id], (err, res) => {
+        if (err) throw err;
+        console.log('Role added successfully!');
+        goHome();
+      });
     });
-  }); 
 }
 
 function addEmployee() {
@@ -144,7 +163,7 @@ function addEmployee() {
       db.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?);', [answer.first_name, answer.last_name, answer.role_id, answer.manager_id], (err, res) => {
         if (err) throw err;
         console.log('Employee added successfully!');
-        mainMenu();
+        goHome();
       });
     });
 }
@@ -173,7 +192,7 @@ function updateEmployeeRole() {
         (err, res) => {
           if (err) throw err;
           console.log('Employee role updated successfully!');
-          mainMenu();
+          goHome();
         }
       );
     });

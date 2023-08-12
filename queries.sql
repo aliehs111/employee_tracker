@@ -30,3 +30,14 @@ INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ('Adam'
 -- Update employee role
 UPDATE employee SET role_id = 2 WHERE id = 1;
 
+-- department budgets
+SELECT department.deptname AS Department, SUM(role.salary) AS Budget FROM department INNER JOIN role ON department.id = role.department_id GROUP BY deptname;
+
+-- delete department
+DELETE FROM department WHERE id = 3;
+
+-- delete role
+DELETE FROM role WHERE id = 2;
+
+-- delete employee
+DELETE FROM employee WHERE id = 5;
