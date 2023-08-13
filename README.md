@@ -25,7 +25,9 @@
   ## Resources and Contributors
   Watching class videos and refering back to the mini-project code was most helpful.
   ## Application Links
-  This app is not deployed.  Here is a link to a walk-through video: 
+  This app is not deployed.  
+  Here is a link to a walk-through video: 
+  https://drive.google.com/file/d/1MIdi1X0fmaSQ3HeZNc7ZE2u1DtYThsPx/view
   ## Email
   smcgov11.11@gmail.com
   
