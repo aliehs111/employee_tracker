@@ -15,7 +15,7 @@
   ## Installation
   Requires installation of Node.js and MySQL.  Open integrated terminal at index.js, type "npm i" to install npm dependencies.  Follow prompts for application menu choices.
   ## Usage
-  This would be a good app to use to develop an employee tracker.  More queries could be added depending on enduser's needs
+  This app could be used to develop an employee tracker.  More queries and a user interface could be added depending on enduser's needs.
   ## Tests
   No tests have been developed for this application at this time.
   ## License

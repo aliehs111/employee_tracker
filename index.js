@@ -4,10 +4,7 @@ const db = require('./db/employee_db.js');
 const { viewDepartments, viewRoles, viewEmployees, viewBudgets } = require('./queries')(goHome);
 
 
-
-
-
-// Function to display the main menu
+//Displays main menu in the terminal
 function mainMenu() {
   inquirer
     .prompt({
@@ -26,6 +23,7 @@ function mainMenu() {
         'Exit',
       ],
     })
+    ///this directs the user's choice to the right function 
     .then((answer) => {
       switch (answer.action) {
         case 'View all departments':
@@ -62,6 +60,7 @@ function mainMenu() {
       }
     });
 }
+//this function allows the user to go back to the main menu after the query is complete so that they don't have to contol c each time.
 function goHome() {
   inquirer.prompt({
     name: 'goHome',
@@ -76,14 +75,12 @@ function goHome() {
       }
     })
 }
-
-
 // Call the main menu to start the application
 mainMenu();
 
+//these are the inquirer prompts and the associated functions to run queries based on user input. Function names are self explanatory so I didn't add comments to each one.  All the queries are in the queries.sql file where I put them after I tested them in the shell. When I copied and pasted in the template literals, I replaced the actual query parameter with a ?.  I decided to keep the query function associated with the inquirer together with the inquire prompts rather than put them in the queries.js file with the query functions that did not require user input.  I did this because I thought it would be easier to read and understand the code.  I also added a goHome function to the end of each function so that the user can go back to the main menu after the query is complete.  
 
 function addDepartment() {
-  // Use Inquirer to prompt the user for department details
   inquirer
     .prompt([
       {
@@ -121,10 +118,7 @@ function addRole() {
         message: 'Enter the department ID:',
       },
     ])
-
-
     .then((answer) => {
-      // Insert the new department into the database
       db.query(`INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`, [answer.title, +answer.salary, +answer.department_id], (err, res) => {
         if (err) throw err;
         console.log('Role added successfully!');
@@ -134,7 +128,6 @@ function addRole() {
 }
 
 function addEmployee() {
-  // Use Inquirer to prompt the user for employee details
   inquirer
     .prompt([
       {
@@ -159,7 +152,6 @@ function addEmployee() {
       },
     ])
     .then((answer) => {
-      // Insert the new employee into the database
       db.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?);', [answer.first_name, answer.last_name, answer.role_id, answer.manager_id], (err, res) => {
         if (err) throw err;
         console.log('Employee added successfully!');
@@ -169,8 +161,6 @@ function addEmployee() {
 }
 
 function updateEmployeeRole() {
-
-  // Use Inquirer to prompt the user for employee and role details
   inquirer
     .prompt([
       {
@@ -185,7 +175,6 @@ function updateEmployeeRole() {
       },
     ])
     .then((answer) => {
-      // Update the employee's role in the database
       db.query(
         'UPDATE employee SET role_id = ? WHERE id = ?',
         [answer.employee_id, answer.role_id],

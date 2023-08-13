@@ -1,8 +1,14 @@
 -- 1. Query all departments
 SELECT * FROM department;
 
--- Query all roles
-SELECT * FROM role;
+-- Query all roles and show job title, role id, the department that role belongs to, and the salary for that role
+SELECT
+    role.title AS Job_Title,
+    role.id AS Role_ID,
+    department.deptname AS Department,
+    role.salary AS Salary
+FROM role 
+JOIN department ON role.department_id = department.id;
 
 -- Query all employees
 SELECT 
