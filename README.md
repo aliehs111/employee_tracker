@@ -28,6 +28,9 @@
   This app is not deployed.  
   Here is a link to a walk-through video: 
   https://drive.google.com/file/d/1MIdi1X0fmaSQ3HeZNc7ZE2u1DtYThsPx/view
+  ## Screenshots
+  ![Alt text](/Assets/Screenshot%202023-08-13%20at%202.45.54%20PM.png)
+  ![Alt text](/Assets/Screenshot%202023-08-13%20at%202.48.54%20PM.png)
   ## Email
   smcgov11.11@gmail.com
   
